@@ -4,6 +4,8 @@
 ![image](https://github.com/dykyi-roman/files-api/blob/master/server.png)
 
 ## Usage package
++ symfony
++ swagger
 
 ## Install
 + composer install
