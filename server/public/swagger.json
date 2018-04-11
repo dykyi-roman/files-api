@@ -1,0 +1,81 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "File API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/file/{id}": {
+            "get": {
+                "summary": "Get file by ID",
+                "responses": {
+                    "200": {
+                        "description": "Get file by ID"
+                    }
+                },
+                "security": [
+                    {
+                        "Dykyi": []
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Delete file by ID",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete file by ID"
+                    }
+                },
+                "security": [
+                    {
+                        "Dykyi": []
+                    }
+                ]
+            }
+        },
+        "/file": {
+            "post": {
+                "summary": "Upload the new file",
+                "responses": {
+                    "200": {
+                        "description": "Upload the new file"
+                    }
+                },
+                "security": [
+                    {
+                        "Dykyi": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "Files": {
+            "properties": {
+                "id": {
+                    "format": "integer"
+                },
+                "filename": {
+                    "format": "string"
+                },
+                "active": {
+                    "format": "boolean"
+                }
+            }
+        }
+    }
+}
