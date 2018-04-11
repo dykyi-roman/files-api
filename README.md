@@ -6,7 +6,7 @@
 ## Usage package
 + symfony
 + swagger
-+ mogilefs file stotage
++ file stotage (mogilefs)
 
 ## Install
 + composer install
