@@ -35,15 +35,15 @@ class MogileFileStorage implements FileStorageInterface
         $this->namespace = $namespace;
         $this->client = new Connection([
             [
-                'host' => 'mogtracker1.zae.cc',
+                'host' => 'mogtracker1.ua',
                 'port' => 7001
             ],
             [
-                'host' => 'mogtracker2.zae.cc',
+                'host' => 'mogtracker2.ua',
                 'port' => 7001
             ],
             [
-                'host' => 'mogtracker3.zae.cc',
+                'host' => 'mogtracker3.ua',
                 'port' => 7001
             ]
         ]);
