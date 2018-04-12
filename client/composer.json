@@ -1,0 +1,35 @@
+{
+    "name": "dykyi-roman/files-client",
+    "minimum-stability": "stable",
+    "type": "library",
+    "description": "Files Client",
+    "keywords": ["files", "client"],
+    "homepage": "https://github.com/dykyi-roman",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dykyi Roman",
+            "email": "mr.dukuy@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "psr/log": "^1.0",
+        "psr/http-message": "*",
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/http-foundation": "^3.4"
+    },
+    "require-dev": {
+	"vlucas/phpdotenv": "^2.4",
+        "phpunit/phpunit": "~6.0",
+        "squizlabs/php_codesniffer": "3.*",
+        "phpmetrics/phpmetrics": "*",
+        "fzaninotto/Faker": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dykyi\\": ["src/"]
+        }
+    }
+}
