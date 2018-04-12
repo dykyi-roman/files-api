@@ -1,7 +1,7 @@
 {
     "name": "dykyi-roman/files-client",
     "minimum-stability": "stable",
-    "type": "library",
+    "type": "project",
     "description": "Files Client",
     "keywords": ["files", "client"],
     "homepage": "https://github.com/dykyi-roman",
