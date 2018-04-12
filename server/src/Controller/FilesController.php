@@ -7,15 +7,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 use App\Entity\Files;
 
 /**
- * @SWG\Info(title="File API", version="1.0")
+ * @SWG\Info(title="Dykyi File API", version="1.0")
  *
  * @SWG\Get(
  *     path="/file/{id}",
@@ -58,8 +55,6 @@ use App\Entity\Files;
  */
 class FilesController extends Controller
 {
-    const FILE_NAMESPACE = 'test_namespace';
-
     /**
      * Lists all Files.
      * @FOSRest\Get("/files")
@@ -74,7 +69,7 @@ class FilesController extends Controller
 
         $files = $repository->findBy(['limit' => 30]);
 
-        return View::create($files, Response::HTTP_OK , []);
+        return View::create($files, Response::HTTP_OK);
     }
 
     /**
@@ -82,25 +77,28 @@ class FilesController extends Controller
      * @FOSRest\Get("/file/{id}")
      *
      * @param int $id
-     * @return bool|Response
+     * @return array|Response
      * @throws \Exception
      */
     public function getFileByIdAction(int $id)
     {
-        $result = false;
-        $storage = new MogileFileStorage(self::FILE_NAMESPACE);
+        $result = [];
+        $storage = new MogileFileStorage();
         $repository = $this->getDoctrine()->getRepository(Files::class);
-        $file = $repository->find(['id' => $id]);
 
-        if (null === $file){
+        /** @var Files $file */
+        $file = $repository->find(['file_id' => $id]);
+        if (null === $file) {
             return $result;
         }
 
         try {
             $result = $storage->get($file);
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+            return new JsonResponse($result, Response::HTTP_INSUFFICIENT_STORAGE);
+        }
 
-        return $result;
+        return new JsonResponse($result, Response::HTTP_OK);
     }
 
     /**
@@ -120,10 +118,10 @@ class FilesController extends Controller
         $em->persist($file);
         $em->flush();
 
-        $storage = new MogileFileStorage(self::FILE_NAMESPACE);
+        $storage = new MogileFileStorage();
         $storage->create($request->get('filePath'), $file->getId());
 
-        return new JsonResponse('', Response::HTTP_OK);
+        return new JsonResponse(['id' => $file->getId()], Response::HTTP_OK);
     }
 
     /**
@@ -139,19 +137,20 @@ class FilesController extends Controller
      */
     public function deleteFileByIdAction(int $id): JsonResponse
     {
-        $storage = new MogileFileStorage(self::FILE_NAMESPACE);
-        $storage->delete($id);
+        $storage = new MogileFileStorage();
+        if ($storage->delete($id))
+        {
+            $em = $this->getDoctrine()->getManager();
+            /** @var Files $file */
+            $file = $em->getRepository('Files')->find($id);
+            if (!$file) {
+                throw $this->createNotFoundException('Files not fount ['.$id.']');
+            }
 
-        $em = $this->getDoctrine()->getManager();
-        /** @var Files $file */
-        $file = $em->getRepository('App:Files')->find($id);
-        if (!$file){
-            throw $this->createNotFoundException('Files not fount ['.$id.']');
+            $file->setActive(0);
+            $em->flush();
         }
 
-        $file->setActive(0);
-        $em->flush();
-
-        return new JsonResponse('', Response::HTTP_OK);
+        return new JsonResponse(['success' => true], Response::HTTP_OK);
     }
 }

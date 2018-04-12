@@ -20,10 +20,10 @@ class Version20100416130401 extends AbstractMigration
     public function up(Schema $schema)
     {
         $table = $schema->createTable(self::TABLE_NAME);
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('file_id', 'integer', ['autoincrement' => true]);
         $table->addColumn('filename', 'string');
         $table->addColumn('active', 'boolean');
-        $table->setPrimaryKey(['id']);
+        $table->setPrimaryKey(['file_id']);
 
         return $schema;
     }

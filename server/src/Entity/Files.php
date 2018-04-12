@@ -9,7 +9,7 @@ use Swagger\Annotations as SWG;
  * @SWG\Definition()
  *
  * @ORM\Entity
- * @ORM\Table(name="files2")
+ * @ORM\Table(name="files")
  */
 class Files
 {
@@ -19,7 +19,7 @@ class Files
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $file_id;
 
     /**
      * @SWG\Property(format="string")
@@ -35,10 +35,10 @@ class Files
 
     public function getId()
     {
-        return $this->id;
+        return $this->file_id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->filename;
     }
@@ -50,6 +50,11 @@ class Files
 
     public function setActive(bool $value)
     {
-        $this->active = $value;
+        $this->filename = $value;
+    }
+
+    public function getActive(): bool
+    {
+        return $this->active;
     }
 }

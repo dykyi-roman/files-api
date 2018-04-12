@@ -18,14 +18,14 @@ interface FileStorageInterface
 
     /**
      * @param string $filePath
-     * @param int $id
+     * @param int $Id
      * @return bool
      */
-    public function create(string $filePath, int $id): bool;
+    public function create(string $filePath, int $Id): bool;
 
     /**
-     * @param int $id
+     * @param int $Id
      * @return bool
      */
-    public function delete(int $id): bool;
+    public function delete(int $Id): bool;
 }
